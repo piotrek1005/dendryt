@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="com/dendryt/software/client/test/|com/dendryt/software/client/test2/" kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="var" path="GWT_HOME/gwt-user.jar"/>
+	<classpathentry kind="var" path="GWT_HOME/gwt-servlet.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/asm.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/asm-attrs.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/bcel-5.1.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/cglib-2.1.3.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/hibernate3.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/javassist-3.4.GA.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/jta-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/junit.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/log4j-1.2.11.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/slf4j-api-1.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/slf4j-ext-1.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/slf4j-log4j12-1.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/lib/log4j/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="C:/lib/libWaldemar/dendrytbase00013.1.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

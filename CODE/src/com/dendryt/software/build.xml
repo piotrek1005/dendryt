@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="ImageViewer" default="all"
+	basedir="C:\eclipseWersjaGwtDesigner\Workspace\DendrytProject">
+	<description>
+		This is build file for GWT module
+		'com.dendryt.software.Dendryt' deployment.
+		GWT Designer generates it
+		each time when you initiate deployment.
+
+		You can use this file later for manual deployment, but keep in mind, that
+		classpath is hardcoded in it, so after changes in classpath you should
+		regenerate build file.
+	</description>
+
+	<property name="gwt.home" value="C:/lib/GWT_HOME" />
+	<property name="gwt.module.id" value="com.dendryt.software.Dendryt" />
+	<property name="war.name" value="Dendryt2.war" />
+
+	<target name="jars"
+		description="Package up the module project and required projects as jars">
+		<mkdir dir="@dot/${gwt.module.id}/WEB-INF/lib" />
+		<!--=== DendrytProject ===-->
+		<jar destfile="@dot/${gwt.module.id}/WEB-INF/lib/DendrytProject.jar">
+			<fileset dir="C:/eclipseWersjaGwtDesigner/Workspace/DendrytProject/src">
+				<include name="**" />
+			</fileset>
+			<fileset
+				dir="C:/eclipseWersjaGwtDesigner/Workspace/DendrytProject/build/classes">
+				<include name="**/*.class" />
+			</fileset>
+		</jar>
+		<copy todir="@dot/${gwt.module.id}/WEB-INF/lib">
+			<fileset file="C:\lib\GWT_HOME\gwt-servlet.jar" />
+			<fileset
+				file="C:\eclipseWersjaGwtDesigner\plugins\org.junit4_4.3.1\junit.jar" />
+			<fileset file="C:\lib\libWaldemar\antlr-2.7.6.jar" />
+			<fileset file="C:\lib\libWaldemar\asm.jar" />
+			<fileset file="C:\lib\libWaldemar\asm-attrs.jar" />
+			<fileset file="C:\lib\libWaldemar\bcel-5.1.jar" />
+			<fileset file="C:\lib\libWaldemar\cglib-2.1.3.jar" />
+			<fileset file="C:\lib\libWaldemar\commons-collections-3.1.jar" />
+			<fileset file="C:\lib\libWaldemar\commons-logging-1.0.4.jar" />
+			<fileset file="C:\lib\libWaldemar\dom4j-1.6.1.jar" />
+			<fileset file="C:\lib\libWaldemar\hibernate3.jar" />
+			<fileset file="C:\lib\libWaldemar\javassist-3.4.GA.jar" />
+			<fileset file="C:\lib\libWaldemar\jta-1.1.jar" />
+			<fileset file="C:\lib\libWaldemar\junit.jar" />
+			<fileset file="C:\lib\libWaldemar\log4j-1.2.11.jar" />
+			<fileset file="C:\lib\libWaldemar\ojdbc14.jar" />
+			<fileset file="C:\lib\libWaldemar\slf4j-api-1.5.6.jar" />
+			<fileset file="C:\lib\libWaldemar\slf4j-ext-1.5.6.jar" />
+			<fileset file="C:\lib\libWaldemar\slf4j-log4j12-1.5.6.jar" />
+			<fileset file="C:\lib\log4j\log4j-1.2.15.jar" />
+			<fileset file="C:\lib\libWaldemar\dendrytbase000010.1.jar" />
+		</copy>
+	</target>
+
+	<target name="gwt-compile" description="Compile to JavaScript">
+		<delete dir="@dot" />
+		<java classname="com.google.gwt.dev.GWTCompiler" fork="yes"
+			failonerror="true" maxmemory="64m">
+			<classpath>
+				<pathelement
+					location="C:/eclipseWersjaGwtDesigner/Workspace/DendrytProject/src" />
+				<pathelement
+					location="C:/eclipseWersjaGwtDesigner/Workspace/DendrytProject/build/classes" />
+				<pathelement location="C:/lib/GWT_HOME/gwt-user.jar" />
+				<pathelement location="C:/lib/GWT_HOME/gwt-servlet.jar" />
+				<pathelement
+					location="C:/eclipseWersjaGwtDesigner/plugins/org.junit4_4.3.1/junit.jar" />
+				<pathelement location="C:/lib/libWaldemar/antlr-2.7.6.jar" />
+				<pathelement location="C:/lib/libWaldemar/asm.jar" />
+				<pathelement location="C:/lib/libWaldemar/asm-attrs.jar" />
+				<pathelement location="C:/lib/libWaldemar/bcel-5.1.jar" />
+				<pathelement location="C:/lib/libWaldemar/cglib-2.1.3.jar" />
+				<pathelement location="C:/lib/libWaldemar/commons-collections-3.1.jar" />
+				<pathelement location="C:/lib/libWaldemar/commons-logging-1.0.4.jar" />
+				<pathelement location="C:/lib/libWaldemar/dom4j-1.6.1.jar" />
+				<pathelement location="C:/lib/libWaldemar/hibernate3.jar" />
+				<pathelement location="C:/lib/libWaldemar/javassist-3.4.GA.jar" />
+				<pathelement location="C:/lib/libWaldemar/jta-1.1.jar" />
+				<pathelement location="C:/lib/libWaldemar/junit.jar" />
+				<pathelement location="C:/lib/libWaldemar/log4j-1.2.11.jar" />
+				<pathelement location="C:/lib/libWaldemar/ojdbc14.jar" />
+				<pathelement location="C:/lib/libWaldemar/slf4j-api-1.5.6.jar" />
+				<pathelement location="C:/lib/libWaldemar/slf4j-ext-1.5.6.jar" />
+				<pathelement location="C:/lib/libWaldemar/slf4j-log4j12-1.5.6.jar" />
+				<pathelement location="C:/lib/log4j/log4j-1.2.15.jar" />
+				<pathelement location="C:/lib/libWaldemar/dendrytbase000010.1.jar" />
+				<pathelement location="C:/lib/GWT_HOME/gwt-dev-windows.jar" />
+			</classpath>
+			<arg value="-style" />
+			<arg value="OBFUSCATED" />
+			<arg value="-out" />
+			<arg file="@dot" />
+			<arg value="${gwt.module.id}" />
+		</java>
+	</target>
+
+	<target name="web-xml">
+		<mkdir dir="@dot/${gwt.module.id}/WEB-INF" />
+		<echo file="@dot/${gwt.module.id}/WEB-INF/web.xml"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+	<servlet>
+		<servlet-name>com.dendryt.software.server.login.AuthenticationServlet</servlet-name>
+		<servlet-class>com.dendryt.software.server.login.AuthenticationServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>com.dendryt.software.server.login.AuthenticationServlet</servlet-name>
+		<url-pattern>/IAuthenticateUser</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>com.dendryt.software.server.designer.DesignerServlet</servlet-name>
+		<servlet-class>com.dendryt.software.server.designer.DesignerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>com.dendryt.software.server.designer.DesignerServlet</servlet-name>
+		<url-pattern>/IDesigner</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>com.dendryt.software.server.UM.UserManagementServlet</servlet-name>
+		<servlet-class>com.dendryt.software.server.UM.UserManagementServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>com.dendryt.software.server.UM.UserManagementServlet</servlet-name>
+		<url-pattern>/IUserManagement</url-pattern>
+	</servlet-mapping>
+
+</web-app>
+]]></echo>
+	</target>
+
+	<target name="war" depends="gwt-compile, jars, web-xml">
+		<!-- update compilation results -->
+		<!--
+			<delete dir="@dot/${gwt.module.id}/.gwt-compiler" /> <move
+			todir="@dot/${gwt.module.id}"> <fileset
+			dir="@dot/${gwt.module.id}/std"> <include name="**"/> </fileset>
+			</move>
+		-->
+		<!-- do create WAR -->
+		<delete file="${war.name}" />
+		<copy file="${gwt.home}/gwt-servlet.jar" todir="@dot/${gwt.module.id}/WEB-INF/lib" />
+		<jar destfile="${war.name}" basedir="@dot/${gwt.module.id}"
+			duplicate="preserve" />
+		<!-- clean up -->
+		<delete dir="@dot" />
+	</target>
+
+	<target name="deploy" depends="war">
+		<move file="${war.name}" todir="C:/Documents and Settings/michal/Pulpit" />
+	</target>
+
+	<target name="all" depends="deploy" />
+
+</project>

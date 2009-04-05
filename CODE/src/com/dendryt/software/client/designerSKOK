@@ -1,0 +1,423 @@
+package com.dendryt.software.client.designer;
+
+import com.dendryt.software.client.login.LogInInterface;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import com.google.gwt.user.client.ui.*;
+
+public class DesignerInterface {
+	private RootPanel rootPanel;
+	private DesignerController designerController;
+	private IUserManagementAsync UM; 
+	
+	
+	public DesignerInterface() {
+		
+		UM = (IUserManagementAsync) GWT.create(IUserManagement.class);
+		ServiceDefTarget endpoint = (ServiceDefTarget) UM;
+		endpoint.setServiceEntryPoint(GWT.getModuleBaseURL() + "/IUserManagement");
+		
+		
+		
+//		UM.getAllUsersData(new AsyncCallback(){
+//
+//			public void onFailure(Throwable caught) {
+//				Window.alert("BLAD!");				
+//			}
+//
+//			public void onSuccess(Object result) {
+//				StringBuilder s = new StringBuilder();
+//				String[] resultArray = (String[])result;
+//				for(String i : resultArray){
+//					s.append(i);
+//				}
+//				Window.alert(s.toString());				
+//			}
+//			
+//		});
+		
+		
+		designerController = new DesignerController();
+		rootPanel = RootPanel.get();
+	}
+
+	public void mainInterface() {
+		Window.setTitle("Dendryt - Interfejs projektanta");
+		
+		rootPanel.clear();
+		
+		StackPanel stackPanel = new StackPanel();
+		
+		stackPanel.add(addProductInterface(), "Dodawanie produktu");
+		stackPanel.add(removeProductInterface(), "Usuwanie produktu");
+		stackPanel.add(addUserInterface(), "Dodawanie uzytkownika");
+		stackPanel.add(removeUserInterface(), "Usuwanie uzytkownika");
+		stackPanel.add(userBrowserInterface(), "Przeglad uzytkownikow");
+		
+		Button logOut = new Button("Wyloguj", new ClickListener(){
+
+			public void onClick(Widget sender) {
+					UM.logoff(null);
+					LogInInterface logInInterface = new LogInInterface();
+					
+					logInInterface.mainInterface();
+				}
+				 
+			 });
+		
+		rootPanel.add(stackPanel);
+		rootPanel.add(logOut);
+		}
+	
+	private Grid addingWorker() {
+		Grid addWorkerGrid = new Grid(7, 5);
+
+		addWorkerGrid.setWidget(0, 0, new Label("Login:"));
+		final TextBox login = new TextBox();
+		addWorkerGrid.setWidget(0, 1, login);
+		Button sprawdzDostepnosc = new Button("Sprawdz dostepnosc", new ClickListener(){
+
+			public void onClick(Widget sender) {
+					designerController.checkLoginAvailability(login.getText());
+				}
+				 
+			 });
+		addWorkerGrid.setWidget(0, 2, sprawdzDostepnosc);
+		
+		addWorkerGrid.setWidget(1, 0, new Label("Haslo:"));
+		final TextBox haslo = new TextBox();
+		addWorkerGrid.setWidget(1, 1, haslo);
+		
+		addWorkerGrid.setWidget(2, 0, new Label("Imie:"));
+		final TextBox imie = new TextBox();
+		addWorkerGrid.setWidget(2, 1, imie);
+		
+		addWorkerGrid.setWidget(3, 0, new Label("Nazwisko:"));
+		final TextBox nazwisko = new TextBox();
+		addWorkerGrid.setWidget(3, 1, nazwisko);
+		
+		addWorkerGrid.setWidget(4, 0, new Label("Telefon kontaktowy:"));
+		final TextBox telefon = new TextBox();
+		addWorkerGrid.setWidget(4, 1, telefon);
+		
+		addWorkerGrid.setWidget(1, 2, new Label("Funkcje pracownika:"));
+		
+		final CheckBox cb[] = new CheckBox[4];
+		
+		cb[0] = new CheckBox("Serwisant");
+		addWorkerGrid.setWidget(2, 2, cb[0]);
+		
+		cb[1] = new CheckBox("Projektant");
+		addWorkerGrid.setWidget(3, 2, cb[1]);
+		
+		cb[2] = new CheckBox("Programista");
+		addWorkerGrid.setWidget(4, 2, cb[2]);
+		
+		cb[3] = new CheckBox("Tester");
+		addWorkerGrid.setWidget(5, 2, cb[3]);
+		
+		addWorkerGrid.setWidget(0, 3, new Label("    "));
+
+		
+		Button dodaj = new Button("Dodaj uzytkownika", new ClickListener(){
+
+			public void onClick(Widget sender) {
+					boolean userType = false;
+					int i = 0;
+					
+					while(i < cb.length) {
+						if(cb[i++].isChecked()) {
+							userType = true;
+							break;
+						}
+					}
+					
+					if(!userType)
+						Window.alert("Nie wybrano typu uzytkownika!");
+					else if((login.getText() == "") || (haslo.getText() == ""))
+						Window.alert("Prosze podac login i haslo.");
+					else {
+						NewAccountData newAccountData = new NewAccountData();
+						
+						newAccountData.login = login.getText();
+						newAccountData.password = haslo.getText();
+						newAccountData.name = imie.getText();
+						newAccountData.surname = nazwisko.getText();
+						newAccountData.userType = i;
+						
+						designerController.register(newAccountData);
+					}
+				}
+				 
+			 });
+		addWorkerGrid.setWidget(6, 0, dodaj);
+		
+		return addWorkerGrid;
+	}
+	
+	public VerticalPanel addUserInterface() {
+		
+		VerticalPanel addUserPanel = new VerticalPanel();
+		
+		
+		HorizontalPanel chooseUserGroupPanel = new HorizontalPanel();
+		
+		final RadioButton rb1[] = new RadioButton[2];
+		
+		rb1[0] = new RadioButton("pracownik/klient", "Pracownik");
+		rb1[0].setChecked(true);
+		rb1[0].addClickListener(new ClickListener() {
+
+			public void onClick(Widget sender) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		chooseUserGroupPanel.add(rb1[0]);
+		
+		rb1[1] = new RadioButton("pracownik/klient", "Klient");
+		rb1[1].addClickListener(new ClickListener() {
+
+			public void onClick(Widget sender) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		chooseUserGroupPanel.add(rb1[1]);
+		
+		addUserPanel.add(chooseUserGroupPanel);
+		addUserPanel.add(new Label(""));
+		
+		
+		
+		addUserPanel.add(addingWorker());
+		
+		return addUserPanel;
+	}
+	
+	/*VerticalPanel addUserInterface() {
+		
+		VerticalPanel addUserPanel = new VerticalPanel();
+
+		Grid addUserGrid = new Grid(7, 5);
+
+		addUserGrid.setWidget(0, 0, new Label("Login:"));
+		final TextBox login = new TextBox();
+		addUserGrid.setWidget(0, 1, login);
+		Button sprawdzDostepnosc = new Button("Sprawdz dostepnosc", new ClickListener(){
+
+			public void onClick(Widget sender) {
+					designerController.checkLoginAvailability(login.getText());
+				}
+				 
+			 });
+		addUserGrid.setWidget(0, 2, sprawdzDostepnosc);
+		
+		addUserGrid.setWidget(1, 0, new Label("Haslo:"));
+		final TextBox haslo = new TextBox();
+		addUserGrid.setWidget(1, 1, haslo);
+		
+		addUserGrid.setWidget(2, 0, new Label("Imie:"));
+		final TextBox imie = new TextBox();
+		addUserGrid.setWidget(2, 1, imie);
+		
+		addUserGrid.setWidget(3, 0, new Label("Nazwisko:"));
+		final TextBox nazwisko = new TextBox();
+		addUserGrid.setWidget(3, 1, nazwisko);
+		
+		addUserGrid.setWidget(4, 0, new Label("Adres zamieszkania:"));
+		final TextBox adres = new TextBox();
+		addUserGrid.setWidget(4, 1, adres);
+		
+		addUserGrid.setWidget(5, 0, new Label("Telefon kontaktowy:"));
+		final TextBox telefon = new TextBox();
+		addUserGrid.setWidget(5, 1, telefon);
+		
+		addUserGrid.setWidget(6, 0, new Label("E-mail:"));
+		final TextBox email = new TextBox();
+		addUserGrid.setWidget(6, 1, email);
+		
+		addUserGrid.setWidget(1, 2, new Label("Typ uzytkownika:"));
+		
+		final RadioButton rb[] = new RadioButton[5];
+		
+		rb[0] = new RadioButton("users", "Klient");
+		addUserGrid.setWidget(2, 2, rb[0]);
+		
+		rb[1] = new RadioButton("users", "Serwisant");
+		addUserGrid.setWidget(3, 2, rb[1]);
+		
+		rb[2] = new RadioButton("users", "Projektant");
+		addUserGrid.setWidget(4, 2, rb[2]);
+		
+		rb[3] = new RadioButton("users", "Programista");
+		addUserGrid.setWidget(5, 2, rb[3]);
+		
+		rb[4] = new RadioButton("users", "Tester");
+		addUserGrid.setWidget(6, 2, rb[4]);
+		
+		addUserGrid.setWidget(0, 3, new Label("    "));
+		
+		addUserPanel.add(addUserGrid);
+		
+		Button dodaj = new Button("Dodaj uzytkownika", new ClickListener(){
+
+			public void onClick(Widget sender) {
+					boolean userType = false;
+					int i = 0;
+					
+					while(i < rb.length) {
+						if(rb[i++].isChecked()) {
+							userType = true;
+							break;
+						}
+					}
+					
+					if(!userType)
+						Window.alert("Nie wybrano typu uzytkownika!");
+					else if((login.getText() == "") || (haslo.getText() == ""))
+						Window.alert("Prosze podac login i haslo.");
+					else {
+						NewAccountData newAccountData = new NewAccountData();
+						
+						newAccountData.login = login.getText();
+						newAccountData.password = haslo.getText();
+						newAccountData.name = imie.getText();
+						newAccountData.surname = nazwisko.getText();
+						newAccountData.address = adres.getText();
+						newAccountData.email = email.getText();
+						newAccountData.userType = i;
+						
+						designerController.register(newAccountData);
+					}
+				}
+				 
+			 });
+		addUserPanel.add(dodaj);
+		
+		return addUserPanel;
+	}*/
+	
+	VerticalPanel removeUserInterface() {
+		
+		VerticalPanel removeUserPanel = new VerticalPanel();
+	
+		return removeUserPanel;
+	}
+	
+	Grid addProductInterface() {
+		Grid addUserGrid = new Grid(4, 2);
+		
+		addUserGrid.setWidget(0, 0, new Label("Grupa:"));
+		addUserGrid.setWidget(1, 0, new Label("Produkt:"));
+		addUserGrid.setWidget(2, 0, new Label("Wersja:"));
+		
+		final TextBox grupa = new TextBox();
+		addUserGrid.setWidget(0, 1, grupa);
+		
+		final TextBox produkt = new TextBox();
+		addUserGrid.setWidget(1, 1, produkt);
+		
+		final TextBox wersja = new TextBox();
+		addUserGrid.setWidget(2, 1, wersja);
+
+		Button dodaj = new Button("Dodaj", new ClickListener(){
+
+			public void onClick(Widget sender) {
+					if(produkt.getText() == "") Window.alert("Nazwa produktu nie moze byc pusta!");
+					//else registerService.checkLoginAvailability(login.getText(), checkAvailabilityCallback);
+					
+					else if(wersja.getText() == "") Window.alert("Wersja produktu nie moze byc pusta!");
+					//else registerService.checkLoginAvailability(login.getText(), checkAvailabilityCallback);
+					
+					else {
+						NewProductData newProductData = new NewProductData();
+						
+						newProductData.product = produkt.getText();
+						newProductData.version = wersja.getText();
+						
+						designerController.addNewProduct(newProductData);
+					}
+				}
+				 
+			 });
+		addUserGrid.setWidget(3, 0, dodaj);
+		
+		return addUserGrid;
+	}
+	
+	
+	VerticalPanel userBrowserInterface() {
+		
+		VerticalPanel userBrowserPanel = new VerticalPanel();
+
+		Grid addUserGrid = new Grid(7, 5);
+		Tree treeRoot = new Tree();
+		
+		TreeItem userSetTreeItem = new TreeItem("Uzytkownicy");
+		
+		TreeItem clientTreeItem = new TreeItem("Klienci");
+		//TODO: adding clients here
+		userSetTreeItem.addItem(clientTreeItem);
+		
+		TreeItem servicemanTreeItem = new TreeItem("Serwisanci");
+		//TODO: adding servicemans here
+		userSetTreeItem.addItem(servicemanTreeItem);
+		
+		TreeItem designerTreeItem = new TreeItem("Projektanci");
+		//TODO: adding designers here
+		userSetTreeItem.addItem(designerTreeItem);
+		
+		TreeItem programmerTreeItem = new TreeItem("Programisci");
+		//TODO: adding programmers here
+		userSetTreeItem.addItem(programmerTreeItem);
+		
+		
+		TreeItem testerTreeItem = new TreeItem("Testerzy");
+		//TODO: adding testers here
+		userSetTreeItem.addItem(testerTreeItem);
+		
+		
+		userSetTreeItem.setState(true); // open on default
+		treeRoot.addItem(userSetTreeItem);
+		
+		
+		
+		
+		
+		
+		addUserGrid.setWidget(0, 0, treeRoot);
+		
+
+		UM.isLoginAvaliable("heniek", new AsyncCallback<Boolean>(){
+
+			public void onFailure(Throwable caught) {
+				System.out.println("DUPA");
+				
+			}
+
+			public void onSuccess(Boolean result) {
+				System.out.println("SPOKO: " + result);
+				
+				
+			}
+			
+		});
+		
+		
+		userBrowserPanel.add(addUserGrid);
+		return userBrowserPanel;
+	}
+	
+	
+	VerticalPanel removeProductInterface() {
+	
+		VerticalPanel removeProductPanel = new VerticalPanel();
+
+		return removeProductPanel;
+	}
+}

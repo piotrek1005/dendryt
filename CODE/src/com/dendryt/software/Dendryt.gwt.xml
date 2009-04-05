@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><module>
+
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name="com.google.gwt.user.User"/>
+
+	<!-- Specify the app entry point class.                   -->
+	<entry-point class="com.dendryt.software.client.EPDendryt"/>
+
+	<servlet class="com.dendryt.software.server.login.AuthenticationServlet" path="/IAuthenticateUser"/>
+	<servlet class="com.dendryt.software.server.designer.DesignerServlet" path="/IDesigner"/>
+	<servlet class="com.dendryt.software.server.service.ServiceServlet" path="/IService"/>
+	<servlet class="com.dendryt.software.server.UM.UserManagementServlet" path="/IUserManagement"/>
+	<servlet class="com.dendryt.software.server.client.ClientServlet" path="/IClient"/>
+	<servlet class="com.dendryt.software.server.programmer.ProgrammerServlet" path="/IProgrammer"/>
+	<servlet class="com.dendryt.software.server.tester.TesterServlet" path="/ITester"/>
+
+
+	<inherits name="com.google.gwt.user.theme.standard.Standard"/>
+	<inherits name="com.dendryt.software.Dendryt"/>
+	<inherits name="com.dendryt.software.Dendryt"/>
+	<inherits name="com.dendryt.software.Dendryt"/>
+	<!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
+	<!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
+
+</module>
